@@ -1,11 +1,11 @@
 //Found from: https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
 
 class Node{
-    int data;
+    int id;
     Node left;
     Node right;
-    public Node(int data){
-        this.data = data;
+    public Node(int id){
+        this.id = id;
         left = null;
         right = null;
     }

@@ -1,5 +1,14 @@
-//found from: https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
+//
+//
 
+/**
+ * Binary Search Tree Class
+ * found from: https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
+ *
+ * Comments by Tyler Bruno
+ *
+ * display(), getRootNode(), and getRootNodeValue() was created by Tyler Bruno
+ */
 public class BST {
 
     public static Node root;
@@ -8,27 +17,70 @@ public class BST {
         this.root = null;
     }
 
+    public Node getRootNode(){
+        /**
+         *
+         * gets the root node
+         *
+         * @author Tyler Bruno
+         * @return root node
+         */
+        return root;
+    }
+
+    public int getRootNodeValue(){
+        /**
+         * gets the root node valu
+         *
+         * @author Tyler Bruno
+         * @return root node id
+         */
+        return root.id;
+    }
+
+
+
     public boolean find(int id) {
+        /**
+         * Find the node in the tree
+         * @param id is the id of the node
+         * @return true if node is found
+         */
+
+        //Starts at root node
         Node current = root;
+
+        //Loop till node is found or no more nodes left to search
         while (current != null) {
-            if (current.data == id) {
+            if (current.id == id) {//If current id is equal to numbmer we are searching for
                 return true;
-            } else if (current.data > id) {
+            } else if (current.id > id) {//current node is bigger than the id go left of the tree
                 current = current.left;
-            } else {
+            } else {//If current node is smaller than the id go right of the tree
                 current = current.right;
             }
         }
-        return false;
+        return false;//id not found
     }
 
     public boolean delete(int id) {
+        /**
+         * deletes the node with inputted id
+         *
+         * @param id of the node we are looking to delete.
+         * @return returns true if the node was deleted
+         *
+         *
+         */
         Node parent = root;
         Node current = root;
+
         boolean isLeftChild = false;
-        while (current.data != id) {
+
+        while (current.id != id) {
             parent = current;
-            if (current.data > id) {
+
+            if (current.id > id) {
                 isLeftChild = true;
                 current = current.left;
             } else {
@@ -85,6 +137,13 @@ public class BST {
     }
 
     public Node getSuccessor(Node deleleNode) {
+        /**
+         * Gets the successor node
+         *
+         * @param deleleNode node we are looking for successor for
+         *
+         * @return the successsor
+         */
         Node successsor = null;
         Node successsorParent = null;
         Node current = deleleNode.right;
@@ -104,16 +163,39 @@ public class BST {
     }
 
     public void insert(int id) {
+        /**
+         * inserts unique nodes into the binary tree
+         *
+         * Modified by Tyler Bruno
+         *
+         * @param id is the value of the node
+         * @return void
+         */
+
+        //Create new node
         Node newNode = new Node(id);
+
+        //If there is no node in the root, make this new created node the root
         if (root == null) {
             root = newNode;
             return;
         }
+
+        //Find duplicates. If duplicated do not add to BST.
+        if(find(id)== true)
+        {
+            return;
+        }
+
         Node current = root;
+
+
         Node parent = null;
+
+        //Search for the proper location of the node
         while (true) {
             parent = current;
-            if (id < current.data) {
+            if (id < current.id) {
                 current = current.left;
                 if (current == null) {
                     parent.left = newNode;
@@ -130,10 +212,37 @@ public class BST {
     }
 
     public void display(Node root) {
+        /**
+         * Displays the tree
+         *
+         * @param root is the root node
+         * @return void
+         */
         if (root != null) {
             display(root.left);
-            System.out.print(" " + root.data);
+            System.out.print(" " + root.id);
             display(root.right);
         }
+    }
+
+
+
+    public void display(){
+        /**
+         *
+         * @author Tyler Bruno
+         *
+         * displays all the nodes in the tree
+         *
+         * @return void
+         */
+        System.out.println("Root = " + root.id);
+        if(root != null)
+        {
+            display(root.left);
+            System.out.print(" " + root.id);
+            display(root.right);
+        }
+        System.out.println("");
     }
 }
