@@ -1,6 +1,8 @@
 //
 //
 
+import java.util.ArrayList;
+
 /**
  * Binary Search Tree Class
  * found from: https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
@@ -15,6 +17,19 @@ public class BST {
 
     public BST() {
         this.root = null;
+    }
+
+    public BST(ArrayList<Integer> list){
+
+        addArrayList(list);
+    }
+
+    public static void addArrayList(ArrayList<Integer> list)
+    {
+        for(int id:list)
+        {
+            insert(id);
+        }
     }
 
     public Node getRootNode(){
@@ -40,7 +55,7 @@ public class BST {
 
 
 
-    public boolean find(int id) {
+    public static boolean find(int id) {
         /**
          * Find the node in the tree
          * @param id is the id of the node
@@ -162,7 +177,18 @@ public class BST {
         return successsor;
     }
 
-    public void insert(int id) {
+    public int minValue(){
+        Node current = root;
+
+
+        while (current.left != null) {
+            current = current.left;
+        }
+        return (current.id);
+
+    }
+
+    public static boolean insert(int id) {
         /**
          * inserts unique nodes into the binary tree
          *
@@ -178,13 +204,13 @@ public class BST {
         //If there is no node in the root, make this new created node the root
         if (root == null) {
             root = newNode;
-            return;
+            return true;
         }
 
         //Find duplicates. If duplicated do not add to BST.
         if(find(id)== true)
         {
-            return;
+            return true;
         }
 
         Node current = root;
@@ -199,16 +225,17 @@ public class BST {
                 current = current.left;
                 if (current == null) {
                     parent.left = newNode;
-                    return;
+                    return true;
                 }
             } else {
                 current = current.right;
                 if (current == null) {
                     parent.right = newNode;
-                    return;
+                    return true;
                 }
             }
         }
+
     }
 
     public void display(Node root) {
@@ -225,7 +252,34 @@ public class BST {
         }
     }
 
+//    public ArrayList<Integer> getAllNodes()
+//    {
+//        if(root != null)
+//        {
+//            get
+//        }
+//    }
 
+
+//    public int getValues(Node root) {
+//        /**
+//         * Displays the tree
+//         *
+//         * @param root is the root node
+//         * @return void
+//         */
+//
+//        if (root != null) {
+//            getValues(root.left);
+//
+//            getValues(root.right);
+//            return(root.id);
+//        }
+//        else {
+//            return -999;
+//        }
+//
+//    }
 
     public void display(){
         /**
@@ -236,7 +290,7 @@ public class BST {
          *
          * @return void
          */
-        System.out.println("Root = " + root.id);
+//        System.out.println("Root = " + root.id);
         if(root != null)
         {
             display(root.left);
