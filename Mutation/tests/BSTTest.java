@@ -1,39 +1,85 @@
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class unit tests the BST. The BST DOES NOT have duplicates
+ *
+ * In order to run assertions you must have '-ea' in the VM assertions for your IDE.
+ *
+ * if you are using IntelliJ IDEA IDE follow these steps to enable assertions:
+ * Run -> edit configurations -> in VM options enter '-ea'.    now you can run the program like normal
+ */
+
 public class BSTTest {
 
-
     @Test
-    public void getRootNodeValue() {
-
-        BST tree = new BST();
-
-        assertNull(tree.getRootNode());
-
+    public void addArrayList(){
+        /**
+         * Checks that the values were correctly added to the BST
+         */
+        //Get random values from the test oracle
         ArrayList<Integer> randValues = oracle();
 
+        //For testing we remove duplicate values from our rand values because our BST does not take duplicates
+        ArrayList<Integer> randValuesWithoutDuplicates = removeDuplicates(randValues);
+
+        //Create bst
+        BST tree = new BST();
+
+        //Add arraylist
         tree.addArrayList(randValues);
 
-        assertEquals(randValues.get(0),(Integer) tree.getRootNodeValue());
+        for(int value:randValuesWithoutDuplicates)
+        {
+            assertTrue(tree.find(value));
+        }
+
+
     }
 
     @Test
-    public void find() {
+    public void getRootNodeValue() {
+        /**
+         * tests the getRoodNodeValue method
+         */
 
+        //Create bst
+        BST tree = new BST();
 
+        //Test that the newely created BST's root node is NULL.
+        assertNull(tree.getRootNode());
+
+        //Get random values from the test oracle
         ArrayList<Integer> randValues = oracle();
 
+        //Add the arraylist to the tree
+        tree.addArrayList(randValues);
+
+        //Check that the first value entered into the tree (root) is the root node in the tree.
+        assertEquals(randValues.get(0),(Integer) tree.getRootNodeValue());
+    }
+
+
+
+    @Test
+    public void find() {
+        /**
+         * Test the find function
+         */
+
+        //Create random test values
+        ArrayList<Integer> randValues = oracle();
+
+        //create BST with rand values
         BST tree = new BST(randValues);
 
 
-
+        //Check that each value that has been added to the tree can be found
         for(int value: randValues){
 
             assertTrue(tree.find(value));
@@ -44,36 +90,49 @@ public class BSTTest {
 
     @Test
     public void delete() {
+        /**
+         * Tests the delete function
+         */
+
+        //get random values (with duplicates)
         ArrayList<Integer> randValues = oracle();
 
+        //Create BST with random values
         BST tree = new BST(randValues);
 
-        for(int value: randValues){
 
-            System.out.println(value);
+        //For testing we remove duplicate values from our rand values because our BST does not take duplicates
+        ArrayList<Integer> randValuesWithoutDuplicates = removeDuplicates(randValues);
 
-            //assertTrue(tree.delete(value));
-        }
+        //Get the size of the input data without duplicates
+        int randValuesSize = randValuesWithoutDuplicates.size()-1;
 
-        System.out.println("\n");
+        //When An Item is deleted test the size
+        for(int value: randValuesWithoutDuplicates)
+        {
 
-        for(int value: randValues){
-
-            System.out.println(value);
-            System.out.println(tree.delete(value));
-            //assertTrue(tree.delete(value));
+            tree.delete(value);
+            assertEquals(randValuesSize--, tree.getSize(tree.getRootNode()));
         }
 
     }
 
     @Test
     public void minValue(){
+        /**
+         * tests the minvalue
+         */
+
+        //get random values for test
         ArrayList<Integer> randValues = oracle();
 
+        //Create tree and add random values to the tree
         BST tree = new BST(randValues);
 
+        //Sort the random values so we know the least values from our test input data
         Collections.sort(randValues);
 
+        //Check if the min value from our test values match the min value from the tree
         assertEquals(randValues.get(0),(Integer) tree.minValue());
     }
 
@@ -85,11 +144,16 @@ public class BSTTest {
 
     @Test
     public void insert() {
+        /**
+         * Test the insert method
+         */
         ArrayList<Integer> randValues = oracle();
 
         BST tree = new BST();
 
+
         ArrayList<Integer> noDuplicateValues = removeDuplicates(randValues);
+
 
         for(int value: randValues)
         {
@@ -101,21 +165,31 @@ public class BSTTest {
 
     @Test
     public void display() {
+        /**
+         * Test the display method
+         *
+         * This does NOT WORK
+         */
+
 
         ArrayList<Integer> randValues = oracle();
 
         BST tree = new BST(randValues);
 
-        tree.display();
+        //Get the random values without duplicates. This will be compared with whats in the tree. Tree does not have duplicates
         randValues = removeDuplicates(randValues);
+
+        //Sort the randValues so that we can compare with the output of the tree (tree should go from smallest to largest without duplicates)
         Collections.sort(randValues);
 
         String stringVal= randValues.toString();
+
         String temp= "";
         for(int i = 0; i < randValues.size();i++)
         {
 
                 temp += " "+ randValues.get(i).toString();
+
 
         }
 
@@ -124,8 +198,17 @@ public class BSTTest {
 
 
 
-    public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list){
+    private static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list){
+        /**
+         * This is a helper method for testing.
+         *
+         * This method removes duplicates from an arraylist
+         *
+         * @param list with duplicates
+         * @return list with duplicates removed
+         */
         ArrayList<Integer> noDuplicates = new ArrayList<>();
+
 
         for(int i = 0; i < list.size();i++)
         {
@@ -137,8 +220,14 @@ public class BSTTest {
         return noDuplicates;
     }
 
-    public static ArrayList<Integer>oracle()
+    private static ArrayList<Integer>oracle()
     {
+        /**
+         * This is our test oracle.
+         * It generates random values to test
+         *
+         * @return random values to test.
+         */
         final int MAX = 20;
         final int MIN = -10;
         final int SIZE = 20;//number of random numbers
@@ -174,7 +263,7 @@ public class BSTTest {
     }
 
 
-    public static void print(Object value)
+    private static void print(Object value)
     {
         /**
          * Prints Object values to the screen.
@@ -185,7 +274,7 @@ public class BSTTest {
 
     }
 
-    public static void println(Object value)
+    private static void println(Object value)
     {
         /**
          * Prints Object values to the screen.

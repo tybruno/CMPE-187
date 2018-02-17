@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 /**
  * Binary Search Tree Class
+ * The BST DOES NOT have duplicates
+ *
  * found from: https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
  *
  * Comments by Tyler Bruno
  *
- * display(), getRootNode(), and getRootNodeValue() was created by Tyler Bruno
+ * display(), getRootNode(), BST(list), addArrayList(), and getRootNodeValue() was created by Tyler Bruno
  */
 public class BST {
 
@@ -20,16 +22,35 @@ public class BST {
     }
 
     public BST(ArrayList<Integer> list){
+        /**
+         * @param list that will be added to the created BST.
+         */
 
         addArrayList(list);
     }
 
     public static void addArrayList(ArrayList<Integer> list)
     {
+        /**
+         * Add the arraylist to the tree
+         *
+         * @param list is the array list of integers (id) that will be added to the tree
+         */
+
         for(int id:list)
         {
             insert(id);
         }
+    }
+
+    public int getSize(Node root){
+        /**
+         * method found from: https://algorithms.tutorialhorizon.com/find-the-size-of-the-binary-tree/
+         */
+        if(root==null){
+            return 0;
+        }
+        return 1 + getSize(root.left) + getSize(root.right);
     }
 
     public Node getRootNode(){
@@ -178,12 +199,18 @@ public class BST {
     }
 
     public int minValue(){
+        /**
+         * gets the minimum value in the tree (left most value in the tree
+         *
+         * @return the minimum value in the tree.
+         */
         Node current = root;
 
 
         while (current.left != null) {
             current = current.left;
         }
+
         return (current.id);
 
     }
@@ -252,34 +279,27 @@ public class BST {
         }
     }
 
-//    public ArrayList<Integer> getAllNodes()
-//    {
-//        if(root != null)
-//        {
-//            get
-//        }
-//    }
 
 
-//    public int getValues(Node root) {
-//        /**
-//         * Displays the tree
-//         *
-//         * @param root is the root node
-//         * @return void
-//         */
-//
-//        if (root != null) {
-//            getValues(root.left);
-//
-//            getValues(root.right);
-//            return(root.id);
-//        }
-//        else {
-//            return -999;
-//        }
-//
-//    }
+    public int getValues(Node root) {
+        /**
+         * Displays the tree
+         * THIS DOESNt WORK
+         * @param root is the root node
+         * @return void
+         */
+
+        if (root != null) {
+            getValues(root.left);
+
+            getValues(root.right);
+            return(root.id);
+        }
+        else {
+            return -999;
+        }
+
+    }
 
     public void display(){
         /**
